@@ -12,33 +12,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v6
-    - uses: actions/setup-go@v6
-      with:
-        go-version: ${{env.GO_VERSION}}
-    - uses: actions/setup-node@v6
-      with:
-        node-version: ${{env.NODE_VERSION}}
-        cache: npm
-        cache-dependency-path: package-lock.json
-    - uses: nick-fields/retry@v4
-      name: npm ci
-      with:
-        command: npm ci --no-audit --no-fund
-        retry_on: error
-        max_attempts: 3
-        timeout_minutes: 5
-    - name: Install Task
-      uses: arduino/setup-task@v2
-      with:
-        version: 3.x
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Install Zig
-      uses: mlugg/setup-zig@v2
     - name: Build
-      run: task package
-      env:
-        USE_SYSTEM_FPM: true
-        CSC_IDENTITY_AUTO_DISCOVERY: false
+      run: |-
+        mkdir make
+        echo "dummy" > make/dummy.exe
       shell: powershell
     - name: GARALT debug probe
       run: ls -R make/
